@@ -73,7 +73,39 @@ var displayBoxInfo = function (city){
 }
 
 var displayForecast = function(city){
-    console.log("display Five day forecast - " + city)
+
+    var sectionTitle = document.querySelector("#five-day-forecast");
+    sectionTitle.textContent = "5-Day Forecast:";
+
+    for(var i=0; i<5; i++){
+        var dayCards = document.querySelector(".forecast-cards");
+
+        var dayForecastCard = document.createElement("div");
+        dayForecastCard.className = "forecast-single-card";
+    
+        var day = document.createElement("h5");
+        day.className = "left";
+        day.textContent = "Day " + (i+1);
+    
+        var temp = document.createElement("h6");
+        temp.className = "left";
+        temp.textContent = "Temp:" + "use moment and fetch";
+    
+        var wind = document.createElement("h6");
+        wind.className = "left";
+        wind.textContent = "Wind:" + "use moment and fetch";
+    
+        var humidity = document.createElement("h6");
+        humidity.className = "left";
+        humidity.textContent = "Humidity:" + "use moment and fetch";
+    
+        dayForecastCard.appendChild(day);
+        dayForecastCard.appendChild(temp);
+        dayForecastCard.appendChild(wind);
+        dayForecastCard.appendChild(humidity);
+    
+        dayCards.appendChild(dayForecastCard);
+    }
 }
 
 searchFormEl.addEventListener("submit", searchBtnHandler);
@@ -82,4 +114,5 @@ searchFormEl.addEventListener("submit", searchBtnHandler);
 //add drag-and-drop properties to make cities dropable to remove zone
 
 //Now I have already handled the situation when a name is submitted.
+//still need to fetch info from api to be displayed
 //But what if a city is clicked? -- Then call the other two functions again passing its own textContent as parameter
