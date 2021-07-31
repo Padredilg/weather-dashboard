@@ -19,6 +19,7 @@
 
 var searchFormEl = document.querySelector("#search-form");
 var inputBoxEl = document.querySelector("#search-input");
+var leftSectionEl = document.querySelector("#left-section");
 
 setInterval(function(){
     var currTime = moment().format("dddd, MMM Do - hh:mm:ss A");
@@ -44,7 +45,10 @@ var searchBtnHandler = function(event){
 }
 
 var createCityButton = function(city){
-    console.log("Create Button - " + city);
+    var newCity = document.createElement("button");
+    newCity.classList = "button city-btn"
+    newCity.textContent = city;
+    leftSectionEl.appendChild(newCity);
 }
 
 var displayBoxInfo = function (city){
@@ -57,7 +61,5 @@ var displayForecast = function(city){
 
 searchFormEl.addEventListener("submit", searchBtnHandler);
 
-//get the value of the input box. Then create a button on the same column as the search box for getting that info back
-//also create a box on the right where the info will be appended
-//and a bottom section: 5-day forecast
 
+//add drag-and-drop properties to make cities dropable to remove zone
