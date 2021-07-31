@@ -25,15 +25,33 @@
             <div class="row">
 
               <div class="col-3 center block-sequence">
-                <form id="search-form" class="card-body">
+                <form id="search-form">
                     <label class="search-label" for="city">Search For a City:</label>
                     <input name="city" id="search-input" type="text" class="search-input" placeholder="City name"/>
                     <button id="search-submit" type="submit" class="search-submit">Search</button>
                 </form>
+                <div class="dividing-line"></div>
               </div>
 
-              <div class="col-9 center">
-                info displayed here
+              <div id="info-section" class="col-9 center">
+                <div id="info-box" class="left info-box-border">
+                    <h3>City Name</h3>
+                    <h5>Temp:</h5>
+                    <h5>Wind:</h5>
+                    <h5>Humidity:</h5>
+                    <h5>UV Index:</h5>
+                </div>
+
+                <div id="forecast" class="left">
+                    <h4>5-Day Forecast:</h4>
+                    <div>
+                        <div>1</div>
+                        <div>2</div>
+                        <div>3</div>
+                        <div>4</div>
+                        <div>5</div>
+                    </div>
+                </div>
               </div>
 
             </div>
@@ -41,11 +59,11 @@
         </div>
     </main>
 
-    <footer>
+    <!-- <footer>
         <h4 class="center">
             <i class="em em-hammer_and_wrench" aria-role="presentation" aria-label=""></i>       This planner was engineered by Luiz Guilherme Padredi       <i class="em em-hammer_and_wrench" aria-role="presentation" aria-label=""></i>
         </h4>
-    </footer>
+    </footer> -->
 
       <!-- jQuery -->
       <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

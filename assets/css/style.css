@@ -24,8 +24,12 @@ header{
     text-align: center;
 }
 
+.left{
+    text-align: left;
+}
+
 #page-title{
-    font-size: 5vw;
+    font-size: 4vw;
 }
 
 #current-day{
@@ -35,7 +39,7 @@ header{
 
 .search-label{
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 1.9rem;
     width: 100%;
     padding: 0 0 0px 5px;
     text-align: left;
@@ -72,7 +76,25 @@ header{
     align-items: center;
 }
 
-footer {
+.dividing-line{
+    width: 100%;
+    padding: 0 0 9px 0;
+    border-bottom: solid 2px darkblue;
+    border-radius: 0 0 4px 4px;
+}
+
+#forecast {
+    margin: 10px 0 0 0;
+}
+
+/*To be added dynamically*/
+.info-box-border{
+    border: solid 2px darkgray;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+/* footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -91,13 +113,7 @@ footer h4 {
     font-weight: normal;
     color: whitesmoke;
     width: 95%;
-}
-
-.card-body {
-    padding: 0 0 9px 0;
-    border-bottom: solid 2px darkblue;
-    border-radius: 0 0 4px 4px;
-}
+} */
 
 @media (min-width: 1200px){
     .container {
