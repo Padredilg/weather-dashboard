@@ -58,13 +58,21 @@ var checkCity = function(cityName){
     if(cityName == ""){//add || cityName already exists in localStorage
         return true;
     }
-
-    //else if(city already inputed)
-    //retrieve each name stored in localStorage and compare them with cityName
-
-    //else if()
-    //to check last option, loop through WebApi names and see if any corresponds. If no matches, then alert user and return true.
     
+    //if there are cities in the citiesArr already, see if new city is already there
+    else if(citiesArr){
+        for(var i=0; i<citiesArr.length; i++){
+            if(cityName == citiesArr[i]){
+                return true;
+            }
+        }
+    }
+
+    // else if(name is not in the WebApi){
+    //     return true
+    // }
+    //loop through WebApi names and see if any corresponds. If no matches, then alert user and return true.
+    return false;
 }
 
 var capFirstLetter = function(cityName){
@@ -152,14 +160,18 @@ var storeCity = function(cityName){
     localStorage.setItem("cities", JSON.stringify(citiesArr));
 }
 
-var loadCities = function() {    
+var loadCities = function () {
     var retrievedData = localStorage.getItem("cities");
-    citiesArr = JSON.parse(retrievedData);
+    //only execute code if retrievedData isn't empty
+    if (retrievedData) {
+        citiesArr = JSON.parse(retrievedData);
 
-    for(var i=0; i<citiesArr.length; i++){
-        createCityButton(citiesArr[i]);
+        for (var i = 0; i < citiesArr.length; i++) {
+            createCityButton(citiesArr[i]);
+        }
     }
 };
+
 
 loadCities();
 searchFormEl.addEventListener("submit", searchBtnHandler);
