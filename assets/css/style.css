@@ -1,0 +1,106 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Alata';
+}
+
+header{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background: darkblue;
+    color: white;
+    margin-bottom: 25px;
+}
+
+.center{
+    text-align: center;
+}
+
+#page-title{
+    font-size: 5vw;
+}
+
+#current-day{
+    font-size: 1.6rem;
+    margin: 0 auto .5rem auto;
+}
+
+.search-label{
+    font-weight: bold;
+    font-size: 2rem;
+    width: 100%;
+    padding: 0 0 0px 5px;
+    text-align: left;
+    margin: 0;
+}
+
+.search-input{
+    width: 100%;
+    padding: 3%;
+    margin: 5px 0;
+    font-size: 1.2rem;
+    border: 2px solid darkgrey;
+    border-radius: 10px;
+}
+
+.search-submit{
+    width: 100%;
+    padding: 3%;
+    margin: 5px 0;
+    font-size: 1rem;
+    border: 0;
+    border-radius: 10px;
+    background-color: darkblue;
+    color: white;
+}
+
+.search-submit:focus{
+    outline: none;
+}
+
+.block-sequence {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    background: darkblue;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+  
+footer h4 {
+    margin: 15px auto;
+    font-size: 1.1em;
+    font-style: italic;
+    font-weight: normal;
+    color: whitesmoke;
+    width: 95%;
+}
+
+.card-body {
+    padding: 0 0 9px 0;
+    border-bottom: solid 2px darkblue;
+    border-radius: 0 0 4px 4px;
+}
+
+@media (min-width: 1200px){
+    .container {
+        max-width: 95%;
+    }
+}
