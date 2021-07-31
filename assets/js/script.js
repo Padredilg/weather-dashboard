@@ -22,6 +22,8 @@ var inputBoxEl = document.querySelector("#search-input");
 var leftSectionEl = document.querySelector("#left-section");
 var infoBoxEl = document.querySelector("#info-box");
 
+var citiesArr = [];
+
 setInterval(function(){
     var currTime = moment().format("dddd, MMM Do - hh:mm:ss A");
     $("#current-day").text(currTime);
@@ -31,18 +33,53 @@ var searchBtnHandler = function(event){
     event.preventDefault();
 
     var cityName = inputBoxEl.value.trim();//convert to only first letter capitalized
+    //Capitalize first letter of each word
+    cityName = capFirstLetter(cityName);
+    //this function may not be needed because we can instead use the one in the webApi
 
+    //check if value is empty, or if name was already inputed, or if city name is non-existent
+    if(checkCity(cityName)){
+        return;
+    };
+    
+    //get the value of the input box. Then create a button on the same column as the search box for getting that info back
+    createCityButton(cityName);
+    //also create a box on the right where the info will be appended
+    displayBoxInfo(cityName);
+    //and a bottom section: 5-day forecast
+    displayForecast(cityName);
+
+    //store city in localStorage
+    storeCity(cityName);
+}
+
+var checkCity = function(cityName){
+    //returns false if cityName is "", or name was already chosen, or if name does not exist
     if(cityName == ""){//add || cityName already exists in localStorage
-        return false;
+        return true;
     }
-    else{
-        //get the value of the input box. Then create a button on the same column as the search box for getting that info back
-        createCityButton(cityName);
-        //also create a box on the right where the info will be appended
-        displayBoxInfo(cityName);
-        //and a bottom section: 5-day forecast
-        displayForecast(cityName);
+
+    //else if(city already inputed)
+    //retrieve each name stored in localStorage and compare them with cityName
+
+    //else if()
+    //to check last option, loop through WebApi names and see if any corresponds. If no matches, then alert user and return true.
+    
+}
+
+var capFirstLetter = function(cityName){
+    //convert entire string name to lowercase, and split the cityName at every space
+    //splitName becomes an array in which each element is one of the words
+    var splitName = cityName.toLowerCase().split(" ");
+        
+    // loop will only execute the same number of elements contained in the array
+    for (var i=0; i<splitName.length; i++) {
+        //Make first letter of the element capital, followed by the remaining.
+        splitName[i] = splitName[i].charAt(0).toUpperCase() + splitName[i].substring(1);     
     }
+
+    // join all of the elements while separating them by a space
+    return splitName.join(' '); 
 }
 
 var createCityButton = function(city){
@@ -77,8 +114,10 @@ var displayForecast = function(city){
     var sectionTitle = document.querySelector("#five-day-forecast");
     sectionTitle.textContent = "5-Day Forecast:";
 
+    var dayCards = document.querySelector(".forecast-cards");
+    dayCards.textContent = "";
+
     for(var i=0; i<5; i++){
-        var dayCards = document.querySelector(".forecast-cards");
 
         var dayForecastCard = document.createElement("div");
         dayForecastCard.className = "forecast-single-card";
@@ -108,11 +147,27 @@ var displayForecast = function(city){
     }
 }
 
+var storeCity = function(cityName){
+    citiesArr.push(cityName);
+    localStorage.setItem("cities", JSON.stringify(citiesArr));
+}
+
+var loadCities = function() {    
+    var retrievedData = localStorage.getItem("cities");
+    citiesArr = JSON.parse(retrievedData);
+
+    for(var i=0; i<citiesArr.length; i++){
+        createCityButton(citiesArr[i]);
+    }
+};
+
+loadCities();
 searchFormEl.addEventListener("submit", searchBtnHandler);
 
 
 //add drag-and-drop properties to make cities dropable to remove zone
 
-//Now I have already handled the situation when a name is submitted.
 //still need to fetch info from api to be displayed
 //But what if a city is clicked? -- Then call the other two functions again passing its own textContent as parameter
+
+//maybe create addEventlistener on click for the left-section. when click check if its a button
