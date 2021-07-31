@@ -20,6 +20,7 @@
 var searchFormEl = document.querySelector("#search-form");
 var inputBoxEl = document.querySelector("#search-input");
 var leftSectionEl = document.querySelector("#left-section");
+var infoBoxEl = document.querySelector("#info-box");
 
 setInterval(function(){
     var currTime = moment().format("dddd, MMM Do - hh:mm:ss A");
@@ -29,9 +30,9 @@ setInterval(function(){
 var searchBtnHandler = function(event){
     event.preventDefault();
 
-    var cityName = inputBoxEl.value.trim();
+    var cityName = inputBoxEl.value.trim();//convert to only first letter capitalized
 
-    if(cityName == ""){
+    if(cityName == ""){//add || cityName already exists in localStorage
         return false;
     }
     else{
@@ -52,7 +53,23 @@ var createCityButton = function(city){
 }
 
 var displayBoxInfo = function (city){
-    console.log("display info in box - " + city);
+    //give the div its border class and Populate the info into its tags.
+    infoBoxEl.className = "info-box-border";
+
+    var cityName = document.querySelector("#box-city-name");
+    cityName.textContent = city;
+
+    var temp = document.querySelector("#box-temp");
+    temp.textContent = "Temp: " + "get from fetching info";
+
+    var wind = document.querySelector("#box-wind");
+    wind.textContent = "Wind: " + "get from fetching info";
+
+    var humidity = document.querySelector("#box-humidity");
+    humidity.textContent = "Humidity: " + "get from fetching info";
+
+    var uv = document.querySelector("#box-uv");
+    uv.textContent = "UV Index: " + "get from fetching info";
 }
 
 var displayForecast = function(city){
@@ -63,3 +80,6 @@ searchFormEl.addEventListener("submit", searchBtnHandler);
 
 
 //add drag-and-drop properties to make cities dropable to remove zone
+
+//Now I have already handled the situation when a name is submitted.
+//But what if a city is clicked? -- Then call the other two functions again passing its own textContent as parameter
