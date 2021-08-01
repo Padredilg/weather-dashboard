@@ -33,24 +33,32 @@ var searchBtnHandler = function(event){
     event.preventDefault();
 
     var cityName = inputBoxEl.value.trim();//convert to only first letter capitalized
-    //Capitalize first letter of each word
-    cityName = capFirstLetter(cityName);
-    //this function may not be needed because we can instead use the one in the webApi
+
+    cityStats = getCityStats(cityName);
+
+    console.log(cityStats.weather);
+
+    if(!cityName){
+        return;
+    }
+
+    //console.log(cityName.weather.main);
+    
 
     //check if value is empty, or if name was already inputed, or if city name is non-existent
-    if(checkCity(cityName)){
-        return;
-    };
+    // if(checkCity(cityName)){
+    //     return;
+    // };
     
-    //get the value of the input box. Then create a button on the same column as the search box for getting that info back
-    createCityButton(cityName);
-    //also create a box on the right where the info will be appended
-    displayBoxInfo(cityName);
-    //and a bottom section: 5-day forecast
-    displayForecast(cityName);
+    // //get the value of the input box. Then create a button on the same column as the search box for getting that info back
+    // createCityButton(cityName);
+    // //also create a box on the right where the info will be appended
+    // displayBoxInfo(cityName);
+    // //and a bottom section: 5-day forecast
+    // displayForecast(cityName);
     
-    //store city in localStorage
-    storeCity(cityName);
+    // //store city in localStorage
+    // storeCity(cityName);
 }
 
 var checkCity = function(cityName){
@@ -177,6 +185,38 @@ var loadCities = function () {
 
 loadCities();
 searchFormEl.addEventListener("submit", searchBtnHandler);
+
+//"api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=03935d4c657922e697bf7040e8024e77"
+
+var getCityStats = function(city) {
+    // format the github api url
+    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=03935d4c657922e697bf7040e8024e77";
+    //console.log(apiUrl);
+
+    // make a request to the url
+    fetch(apiUrl)
+        .then(function(response) {//the then pretty much takes info, THEN, function with info fecthed
+            //if request was successful
+            if(response.ok){
+                response.json().then(function(data) {//apiUrl became response, got turned into json, THEN, 
+                    // console.log(data)
+                    return data;
+                    //became data passed to displayRepos(), along with user received from calling function;
+                });
+            }
+            //if request was not successful
+            else{
+                alert("Error: City name does not exist");
+                return false;
+            }
+
+        })//end bracket of then method
+        .catch(function(error){
+            //Catch() is chained to then()
+            alert("Unable to connect to the internet");
+        })
+        
+};
 
 
 //add drag-and-drop properties to make cities dropable to remove zone
