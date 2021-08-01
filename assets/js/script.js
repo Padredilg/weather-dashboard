@@ -23,6 +23,7 @@ var leftSectionEl = document.querySelector("#left-section");
 var infoBoxEl = document.querySelector("#info-box");
 
 var citiesArr = [];
+var cityName;
 
 setInterval(function(){
     var currTime = moment().format("dddd, MMM Do - hh:mm:ss A");
@@ -32,18 +33,9 @@ setInterval(function(){
 var searchBtnHandler = function(event){
     event.preventDefault();
 
-    var cityName = inputBoxEl.value.trim();//convert to only first letter capitalized
+    cityName = inputBoxEl.value.trim();
 
-    cityStats = getCityStats(cityName);
-
-    console.log(cityStats.weather);
-
-    if(!cityName){
-        return;
-    }
-
-    //console.log(cityName.weather.main);
-    
+    getCityNameLatLon(cityName);
 
     //check if value is empty, or if name was already inputed, or if city name is non-existent
     // if(checkCity(cityName)){
@@ -57,48 +49,103 @@ var searchBtnHandler = function(event){
     // //and a bottom section: 5-day forecast
     // displayForecast(cityName);
     
-    // //store city in localStorage
-    // storeCity(cityName);
+    //store city in localStorage
+    //storeCity(cityName);
 }
 
-var checkCity = function(cityName){
-    //returns false if cityName is "", or name was already chosen, or if name does not exist
-    if(cityName == ""){//add || cityName already exists in localStorage
-        return true;
-    }
+var getCityNameLatLon = function(city) {
+    // format the github api url
+    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=03935d4c657922e697bf7040e8024e77";
+    //console.log(apiUrl);
+    
+    // make a request to the url
+    fetch(apiUrl)
+        .then(function(response) {
+            if(response.ok){
+                response.json().then(function(data) {//string api becomes object 
+                    
+                    cityName = data.name;
+                    var lat = data.coord.lat;
+                    var lon = data.coord.lon;
 
-    //if there are cities in the citiesArr already, see if new city is already there
-    else if(citiesArr){
-        for(var i=0; i<citiesArr.length; i++){
-            if(cityName == citiesArr[i]){
-                displayBoxInfo(cityName);
-                displayForecast(cityName);
-                return true;
+                    getCityAdvancedInfo(lat, lon);
+                    });
             }
-        }
-    }
+            //if request was not successful means city was not found
+            else{
+                alert("Error: City name does not exist");
+                return false;
+            }
 
-    // else if(name is not in the WebApi){
-    //     return true
-    // }
-    //loop through WebApi names and see if any corresponds. If no matches, then alert user and return true.
-    return false;
-}
-
-var capFirstLetter = function(cityName){
-    //convert entire string name to lowercase, and split the cityName at every space
-    //splitName becomes an array in which each element is one of the words
-    var splitName = cityName.toLowerCase().split(" ");
+        })//end bracket of then method
+        .catch(function(error){
+            //Catch() is chained to then()
+            alert("Unable to connect to the internet");
+        })
         
-    // loop will only execute the same number of elements contained in the array
-    for (var i=0; i<splitName.length; i++) {
-        //Make first letter of the element capital, followed by the remaining.
-        splitName[i] = splitName[i].charAt(0).toUpperCase() + splitName[i].substring(1);     
-    }
+};
 
-    // join all of the elements while separating them by a space
-    return splitName.join(' '); 
-}
+var getCityAdvancedInfo = function(lat, lon){
+    // format the github api url
+    var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=03935d4c657922e697bf7040e8024e77";
+    //console.log(apiUrl);
+        
+    // make a request to the url
+    fetch(apiUrl)
+        .then(function(response) {
+            if(response.ok){
+                response.json().then(function(data) {//string api becomes object 
+                    // In here we already have the Name, and data for Temp, Wind, Humidity, UV and all this info for future days.
+                    // Can we call another function by passing data? -YES
+                    // Call the function to display info with this data from now!
+                    
+
+                    // console.log(data);
+                    // console.log(cityName);
+                    // var newDate = new Date(1627923600*1000);
+                    // console.log(newDate);
+                    
+
+                });
+            }
+                
+            //if request was not successful means city was not found
+            else{
+                alert("Error: City name does not exist");
+                return false;
+            }
+    
+        })//end bracket of then method
+        .catch(function(error){
+            //Catch() is chained to then()
+            alert("Unable to connect to the internet");
+        })
+            
+};
+
+// var checkCity = function(cityName){
+//     //returns false if cityName is "", or name was already chosen, or if name does not exist
+//     if(cityName == ""){//add || cityName already exists in localStorage
+//         return true;
+//     }
+
+//     //if there are cities in the citiesArr already, see if new city is already there
+//     else if(citiesArr){
+//         for(var i=0; i<citiesArr.length; i++){
+//             if(cityName == citiesArr[i]){
+//                 displayBoxInfo(cityName);
+//                 displayForecast(cityName);
+//                 return true;
+//             }
+//         }
+//     }
+
+//     // else if(name is not in the WebApi){
+//     //     return true
+//     // }
+//     //loop through WebApi names and see if any corresponds. If no matches, then alert user and return true.
+//     return false;
+// }
 
 var createCityButton = function(city){
     var newCity = document.createElement("button");
@@ -186,38 +233,8 @@ var loadCities = function () {
 loadCities();
 searchFormEl.addEventListener("submit", searchBtnHandler);
 
-//"api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=03935d4c657922e697bf7040e8024e77"
 
-var getCityStats = function(city) {
-    // format the github api url
-    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=03935d4c657922e697bf7040e8024e77";
-    //console.log(apiUrl);
-
-    // make a request to the url
-    fetch(apiUrl)
-        .then(function(response) {//the then pretty much takes info, THEN, function with info fecthed
-            //if request was successful
-            if(response.ok){
-                response.json().then(function(data) {//apiUrl became response, got turned into json, THEN, 
-                    // console.log(data)
-                    return data;
-                    //became data passed to displayRepos(), along with user received from calling function;
-                });
-            }
-            //if request was not successful
-            else{
-                alert("Error: City name does not exist");
-                return false;
-            }
-
-        })//end bracket of then method
-        .catch(function(error){
-            //Catch() is chained to then()
-            alert("Unable to connect to the internet");
-        })
-        
-};
-
+//merge searchBtnHandler() with getCityNameLatLon()
 
 //add drag-and-drop properties to make cities dropable to remove zone
 
