@@ -18,8 +18,9 @@
 // THEN I am again presented with current and future conditions for that city
 
 var searchFormEl = document.querySelector("#search-form");
+var clearSearchEl = document.querySelector("#clear");
 var inputBoxEl = document.querySelector("#search-input");
-var leftSectionEl = document.querySelector("#left-section");
+var leftSectionEl = document.querySelector("#searched-cities");
 var infoBoxEl = document.querySelector("#info-box");
 
 var citiesArr = [];
@@ -29,6 +30,12 @@ setInterval(function(){
     var currTime = moment().format("dddd, MMM Do - hh:mm:ss A");
     $("#current-day").text(currTime);
 },1000); 
+
+var clearHistory = function(){
+    leftSectionEl.innerHTML = "";
+    citiesArr = [];
+    localStorage.clear();
+}
 
 var searchBtnHandler = function(event){
     event.preventDefault();
@@ -140,10 +147,12 @@ var displayBoxInfo = function (current){
     document.getElementById("info-box-img").alt=current.weather[0].description;
 
     var temp = document.querySelector("#box-temp");
-    temp.textContent = "Temp: " + current.temp + "K";
+    var tempFahr = ((current.temp  - 273.15)*(9/5) + 32);
+    tempFahr = tempFahr.toFixed(2);
+    temp.textContent = "Temp: " + tempFahr + "°F";
 
     var wind = document.querySelector("#box-wind");
-    wind.textContent = "Wind: " + current.wind_speed + "MPH";
+    wind.textContent = "Wind: " + current.wind_speed + " MPH";
 
     var humidity = document.querySelector("#box-humidity");
     humidity.textContent = "Humidity: " + current.humidity + "%";
@@ -175,15 +184,17 @@ var displayForecast = function(day){
     
         var temp = document.createElement("h6");
         temp.className = "left";
-        temp.textContent = "Temp:" + day[i].temp.day + "K";
+        var tempFahr = ((day[i].temp.day  - 273.15)*(9/5) + 32);
+        tempFahr = tempFahr.toFixed(2);
+        temp.textContent = "Temp: " + tempFahr + "°F";
     
         var wind = document.createElement("h6");
         wind.className = "left";
-        wind.textContent = "Wind:" + day[i].wind_speed + "MPH";
+        wind.textContent = "Wind: " + day[i].wind_speed + " MPH";
     
         var humidity = document.createElement("h6");
         humidity.className = "left";
-        humidity.textContent = "Humidity:" + day[i].humidity + "%";
+        humidity.textContent = "Humidity: " + day[i].humidity + "%";
     
         dayForecastCard.appendChild(cardDate);
         dayForecastCard.appendChild(icon);
@@ -223,16 +234,17 @@ var loadCities = function () {
 
 loadCities();
 searchFormEl.addEventListener("submit", searchBtnHandler);
+clearSearchEl.addEventListener("click", clearHistory);
 
 
-//include icons
+//UV Index Color
 
-//improve font.
+//style hover effects in the buttons
+
+//card colors
+
+//Update Read Me
 
 //clear search-history button
 
 //add drag-and-drop properties to make cities dropable to remove zone
-
-//style hover effects in the buttons
-
-//maybe create addEventlistener on click for the left-section. when click check if its a button

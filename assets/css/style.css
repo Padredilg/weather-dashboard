@@ -5,7 +5,7 @@
 }
 
 body{
-    font-family: 'Alata';
+    font-family: 'Merriweather';
 }
 
 header{
@@ -72,6 +72,11 @@ header{
     outline: none;
 }
 
+.clear-btn{
+    background-color: grey;
+    color: white;
+}
+
 .search-btn{
     background-color: darkblue;
     color: white;
@@ -95,17 +100,28 @@ header{
     border-radius: 0 0 4px 4px;
 }
 
-/*To be added dynamically*/
+#searched-cities {
+    width: 100%;
+}
+
 .info-box-border{
     border: solid 2px darkgray;
     border-radius: 8px;
-    padding: 5px;
+    padding: 5px 0px 0 10px;
 }
 
 .info-box-title {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+}
+
+.margin-adjust{
+    margin: 0 0 0 0;
+}
+
+.margin-top{
+    margin: 10px 0 15px 0px;
 }
 
 #forecast {
@@ -122,9 +138,9 @@ header{
 
 .forecast-single-card {
     background-color: midnightblue;
-    width: 18%;
+    width: 19%;
     color: white;
-    padding: 5px 10px 1px 10px;
+    padding: 10px 10px 5px 12px;
 }
 
 /* footer {

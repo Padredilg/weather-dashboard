@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <!-- Alata font -->
     <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet">
       <!--emoji for footer-->
     <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css" />
@@ -29,21 +30,25 @@
                     <label class="search-label" for="city">Search For a City:</label>
                     <input name="city" id="search-input" type="text" class="search-input" placeholder="City name"/>
                     <button id="search-submit" type="submit" class="button search-btn">Search</button>
+                    <button id="clear" class="button clear-btn">Clear Search History</button>
                 </form>
                 <div class="dividing-line"></div>
-                <!-- searched cities will go here -->
+                
+                <div id="searched-cities"> 
+                    <!-- searched cities will go here --> 
+                </div>
               </div>
 
               <div id="info-section" class="col-9 center">
                 <div id="info-box">
-                    <div class="info-box-title">
-                        <h3 class="left" id="box-city-name"></h3>
+                    <div class="info-box-title ">
+                        <h3 class="left margin-adjust" id="box-city-name"></h3>
                         <img id="info-box-img" src="" alt="">
                     </div>
-                    <h5 class="left" id="box-temp"></h5>
-                    <h5 class="left" id="box-wind"></h5>
-                    <h5 class="left" id="box-humidity"></h5>
-                    <h5 class="left" id="box-uv"></h5>
+                    <h5 class="left margin-top" id="box-temp"></h5>
+                    <h5 class="left margin-top" id="box-wind"></h5>
+                    <h5 class="left margin-top" id="box-humidity"></h5>
+                    <h5 class="left margin-top" id="box-uv"></h5>
                 </div>
 
                 <div id="forecast" class="left">
