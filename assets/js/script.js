@@ -39,79 +39,63 @@ var searchBtnHandler = function(event){
         return;
     };
 
+    //if some city was inputed, lets see if it exists.
     getCityNameLatLon(cityName);
     inputBoxEl.value = "";
-    
-    //store city in localStorage
-    //storeCity(cityName);
 }
 
 var getCityNameLatLon = function(city) {
-    // format the github api url
+    //get the API URL so we can fetch it
     var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=03935d4c657922e697bf7040e8024e77";
-    //console.log(apiUrl);
     
-    // make a request to the url
+    // fetch the API URL
     fetch(apiUrl)
         .then(function(response) {
+            //if city is found in the API library, execute this:
             if(response.ok){
                 response.json().then(function(data) {//string api becomes object 
                     cityName = data.name;
                     var lat = data.coord.lat;
                     var lon = data.coord.lon;
 
-                    getCityAdvancedInfo(lat, lon);
+                    getCityTempWindHumUV(lat, lon);
                 });
             }
-            //if request was not successful means city was not found
+            //if city was not found in API, alert user.
             else{
                 alert("Error: City " + city + " was either misspelled or does not exist.");
                 return false;
             }
 
-        })//end bracket of then method
+        })//this will execute if fetch was not successful. Probably due to internet issues
         .catch(function(error){
             //Catch() is chained to then()
-            alert("Unable to connect to the internet");
+            alert("Unable to complete your request at this time. Please check your internet connection.");
         })
         
 };
 
-var getCityAdvancedInfo = function(lat, lon){
-    // format the github api url
+var getCityTempWindHumUV = function(lat, lon){
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=03935d4c657922e697bf7040e8024e77";
-    //console.log(apiUrl);
-        
-    // make a request to the url
+
     fetch(apiUrl)
         .then(function(response) {
             if(response.ok){
-                response.json().then(function(data) {//string api becomes object 
-                    // In here we already have the Name, and data for Temp, Wind, Humidity, UV and all this info for future days.
-                    // Can we call another function by passing data? -YES
-                    // Call the function to display info with this data from now!
-                    
-                    // //get the value of the input box. Then create a button on the same column as the search box for getting that info back
+                response.json().then(function(data) {//string api becomes object
                     createCityButton(cityName);
-                    //also create a box on the right where the info will be appended
                     displayBoxInfo(data.current);
-                    //and a bottom section: 5-day forecast
                     displayForecast(data.daily);
                 });
             }
-                
-            //if request was not successful means city was not found
             else{
-                alert("Error: City name does not exist");
+                alert("Error: City " + city + " was either misspelled or does not exist.");
                 return false;
             }
     
-        })//end bracket of then method
-        .catch(function(error){
-            //Catch() is chained to then()
-            alert("Unable to connect to the internet");
         })
-            
+        .catch(function(error){
+            alert("Unable to complete your request at this time. Please check your internet connection.");
+        })
 };
 
 var createCityButton = function(city){
@@ -147,7 +131,7 @@ var displayBoxInfo = function (current){
     infoBoxEl.className = "info-box-border";
 
     var name = document.querySelector("#box-city-name");
-    name.textContent = cityName;
+    name.textContent = cityName + " (" + moment().format("M/D/YYYY") + ")";
 
     var temp = document.querySelector("#box-temp");
     temp.textContent = "Temp: " + current.temp + "K";
@@ -177,7 +161,7 @@ var displayForecast = function(day){
     
         var cardy = document.createElement("h5");
         cardy.className = "left";
-        cardy.textContent = "Day " + (i+1);
+        cardy.textContent = moment().add(i,'days').format("M/D/YYYY");
     
         var temp = document.createElement("h6");
         temp.className = "left";
@@ -224,12 +208,10 @@ var loadCities = function () {
 loadCities();
 searchFormEl.addEventListener("submit", searchBtnHandler);
 
+// forecast dates date
+//include icons and make buttons change displayed info
 
-//functions will stop at different fases. stop before fetching if "".
-//stop during fetch if invalid name
-//dont create new button if name already exists.
-
-//merge searchBtnHandler() with getCityNameLatLon()
+//improve font.
 
 //add drag-and-drop properties to make cities dropable to remove zone
 
