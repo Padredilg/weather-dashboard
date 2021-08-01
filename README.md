@@ -16,7 +16,7 @@ You will be able to find out weather information such as Temperature, Wind Speed
 Link to Website: https://padredilg.github.io/weather-dashboard/
 </br></br>
 Screenshot from Website:
-![screenshot of website](./images/weather-dashboard-ss.png)
+![screenshot of website](./assets/images/weather-dashboard-ss.png)
 
 ## :clap: Credits
 
