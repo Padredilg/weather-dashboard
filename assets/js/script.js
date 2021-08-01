@@ -252,6 +252,6 @@ loadCities();
 searchFormEl.addEventListener("submit", searchBtnHandler);
 clearSearchEl.addEventListener("click", clearHistory);
 
-//style hover effects in the buttons
-
 //Update Read Me
+
+//add Media Queries

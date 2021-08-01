@@ -15,10 +15,10 @@ header{
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    background: darkblue;
-    color: white;
     margin-bottom: 25px;
     padding: 5px 0 0 0;
+    color: white;
+    background-image: linear-gradient(45deg, rgb(27, 31, 255), rgb(0, 65, 139), rgb(0, 0, 73));
 }
 
 .center{
@@ -31,6 +31,7 @@ header{
 
 #page-title{
     font-size: 4vw;
+    font-weight: bold;
 }
 
 #current-day{
@@ -73,19 +74,33 @@ header{
     outline: none;
 }
 
-.clear-btn{
-    background-color: grey;
+.search-btn{
     color: white;
+    background-image: linear-gradient(45deg, rgb(0, 0, 61) 0%, darkblue 90%);
+    transition: all .3s ease-in-out;
+    background-size: 1px 280px;
+    background-position: 0 -10px;
 }
 
-.search-btn{
-    background-color: darkblue;
+.clear-btn{
     color: white;
+    background-image: linear-gradient(45deg, rgb(97, 97, 97) 0%, grey 90%);
+    transition: all .3s ease-in-out;
+    background-size: 1px 280px;
+    background-position: 0 -10px;
 }
 
 .city-btn{
-    background-color: dodgerblue;
     color: black;
+    background-image: linear-gradient(45deg, rgb(25, 106, 187) 0%, dodgerblue 90%);
+    transition: all .3s ease-in-out;
+    background-size: 1px 280px;
+    background-position: 0 -10px;
+}
+
+  
+.search-btn:hover, .clear-btn:hover, .city-btn:hover {
+    background-position: 1px -200px;
 }
 
 .block-sequence {
@@ -96,7 +111,8 @@ header{
 
 .dividing-line{
     width: 100%;
-    padding: 0 0 9px 0;
+    padding: 0px 0px 6px 0;
+    margin: 0 0 5px 0;
     border-bottom: solid 2px darkblue;
     border-radius: 0 0 4px 4px;
 }
@@ -163,7 +179,7 @@ header{
 }
 
 .forecast-single-card {
-    background-color: midnightblue;
+    background-color: rgb(0, 0, 73);
     width: 19%;
     color: white;
     padding: 10px 10px 5px 12px;
@@ -196,3 +212,4 @@ footer h4 {
         max-width: 95%;
     }
 }
+
