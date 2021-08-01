@@ -95,6 +95,19 @@ header{
     border-radius: 0 0 4px 4px;
 }
 
+/*To be added dynamically*/
+.info-box-border{
+    border: solid 2px darkgray;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.info-box-title {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
 #forecast {
     margin: 10px 0 0 0;
 }
@@ -112,13 +125,6 @@ header{
     width: 18%;
     color: white;
     padding: 5px 10px 1px 10px;
-}
-
-/*To be added dynamically*/
-.info-box-border{
-    border: solid 2px darkgray;
-    border-radius: 8px;
-    padding: 5px;
 }
 
 /* footer {

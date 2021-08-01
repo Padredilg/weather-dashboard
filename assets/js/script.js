@@ -77,7 +77,6 @@ var getCityNameLatLon = function(city) {
 
 var getCityTempWindHumUV = function(lat, lon){
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=03935d4c657922e697bf7040e8024e77";
-
     fetch(apiUrl)
         .then(function(response) {
             if(response.ok){
@@ -109,6 +108,7 @@ var createCityButton = function(city){
     newCityButton.classList = "button city-btn"
     newCityButton.textContent = city;
     leftSectionEl.appendChild(newCityButton);
+    newCityButton.addEventListener("click", clickHandlerFunction);
 
     storeCity(city);
 }
@@ -130,8 +130,14 @@ var displayBoxInfo = function (current){
     //give the div its border class and Populate the info into its tags.
     infoBoxEl.className = "info-box-border";
 
+    //<img src="http://openweathermap.org/img/w/04d.png" alt="Clouds">
+    //include icon!
+
     var name = document.querySelector("#box-city-name");
     name.textContent = cityName + " (" + moment().format("M/D/YYYY") + ")";
+    
+    document.getElementById("info-box-img").src="http://openweathermap.org/img/w/" + current.weather[0].icon + ".png";
+    document.getElementById("info-box-img").alt=current.weather[0].description;
 
     var temp = document.querySelector("#box-temp");
     temp.textContent = "Temp: " + current.temp + "K";
@@ -159,9 +165,13 @@ var displayForecast = function(day){
         var dayForecastCard = document.createElement("div");
         dayForecastCard.className = "forecast-single-card";
     
-        var cardy = document.createElement("h5");
-        cardy.className = "left";
-        cardy.textContent = moment().add(i,'days').format("M/D/YYYY");
+        var cardDate = document.createElement("h5");
+        cardDate.className = "left";
+        cardDate.textContent = moment().add(i,'days').format("M/D/YYYY");
+
+        var icon = document.createElement("img");
+        icon.src = "http://openweathermap.org/img/w/" + day[i].weather[0].icon + ".png";
+        icon.alt = day[i].weather[0].description;
     
         var temp = document.createElement("h6");
         temp.className = "left";
@@ -175,13 +185,18 @@ var displayForecast = function(day){
         humidity.className = "left";
         humidity.textContent = "Humidity:" + day[i].humidity + "%";
     
-        dayForecastCard.appendChild(cardy);
+        dayForecastCard.appendChild(cardDate);
+        dayForecastCard.appendChild(icon);
         dayForecastCard.appendChild(temp);
         dayForecastCard.appendChild(wind);
         dayForecastCard.appendChild(humidity);
     
         dayCards.appendChild(dayForecastCard);
     }
+}
+
+var clickHandlerFunction = function(event){
+    getCityNameLatLon(event.target.innerHTML)
 }
 
 var storeCity = function(city){
@@ -200,6 +215,7 @@ var loadCities = function () {
             newCityButton.classList = "button city-btn"
             newCityButton.textContent = citiesArr[i];
             leftSectionEl.appendChild(newCityButton);
+            newCityButton.addEventListener("click", clickHandlerFunction);
         }
     }
 };
@@ -208,18 +224,15 @@ var loadCities = function () {
 loadCities();
 searchFormEl.addEventListener("submit", searchBtnHandler);
 
-// forecast dates date
-//include icons and make buttons change displayed info
+
+//include icons
 
 //improve font.
 
+//clear search-history button
+
 //add drag-and-drop properties to make cities dropable to remove zone
 
-//displayed info-box and forecast need to be provided from the API
-
 //style hover effects in the buttons
-
-//still need to fetch info from api to be displayed
-//But what if a city is clicked? -- Then call the other two functions again passing its own textContent as parameter
 
 //maybe create addEventlistener on click for the left-section. when click check if its a button
