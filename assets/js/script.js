@@ -35,13 +35,12 @@ var searchBtnHandler = function(event){
 
     cityName = inputBoxEl.value.trim();
 
+    if(cityName == ""){
+        return;
+    };
+
     getCityNameLatLon(cityName);
     inputBoxEl.value = "";
-
-    //check if value is empty, or if name was already inputed, or if city name is non-existent
-    // if(checkCity(cityName)){
-    //     return;
-    // };
     
     //store city in localStorage
     //storeCity(cityName);
@@ -66,7 +65,7 @@ var getCityNameLatLon = function(city) {
             }
             //if request was not successful means city was not found
             else{
-                alert("Error: City name does not exist");
+                alert("Error: City " + city + " was either misspelled or does not exist.");
                 return false;
             }
 
@@ -115,35 +114,32 @@ var getCityAdvancedInfo = function(lat, lon){
             
 };
 
-// var checkCity = function(cityName){
-//     //returns false if cityName is "", or name was already chosen, or if name does not exist
-//     if(cityName == ""){//add || cityName already exists in localStorage
-//         return true;
-//     }
-
-//     //if there are cities in the citiesArr already, see if new city is already there
-//     else if(citiesArr){
-//         for(var i=0; i<citiesArr.length; i++){
-//             if(cityName == citiesArr[i]){
-//                 displayBoxInfo(cityName);
-//                 displayForecast(cityName);
-//                 return true;
-//             }
-//         }
-//     }
-
-//     // else if(name is not in the WebApi){
-//     //     return true
-//     // }
-//     //loop through WebApi names and see if any corresponds. If no matches, then alert user and return true.
-//     return false;
-// }
-
 var createCityButton = function(city){
-    var newCity = document.createElement("button");
-    newCity.classList = "button city-btn"
-    newCity.textContent = city;
-    leftSectionEl.appendChild(newCity);
+    //check if name was already inputed.
+    //Oops, this is blocking the loadCities when page is reloaded.
+    if(checkRepeatedCity(city)){
+        return;
+    };
+
+    var newCityButton = document.createElement("button");
+    newCityButton.classList = "button city-btn"
+    newCityButton.textContent = city;
+    leftSectionEl.appendChild(newCityButton);
+
+    storeCity(city);
+}
+
+var checkRepeatedCity = function(cityName){
+    if(citiesArr){
+        for(var i=0; i<citiesArr.length; i++){
+            if(cityName == citiesArr[i]){
+                // displayBoxInfo(cityName);
+                // displayForecast(cityName);
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 var displayBoxInfo = function (current){
@@ -204,8 +200,8 @@ var displayForecast = function(day){
     }
 }
 
-var storeCity = function(cityName){
-    citiesArr.push(cityName);
+var storeCity = function(city){
+    citiesArr.push(city);
     localStorage.setItem("cities", JSON.stringify(citiesArr));
 }
 
@@ -216,7 +212,10 @@ var loadCities = function () {
         citiesArr = JSON.parse(retrievedData);
 
         for (var i = 0; i < citiesArr.length; i++) {
-            createCityButton(citiesArr[i]);
+            var newCityButton = document.createElement("button");
+            newCityButton.classList = "button city-btn"
+            newCityButton.textContent = citiesArr[i];
+            leftSectionEl.appendChild(newCityButton);
         }
     }
 };
@@ -225,6 +224,10 @@ var loadCities = function () {
 loadCities();
 searchFormEl.addEventListener("submit", searchBtnHandler);
 
+
+//functions will stop at different fases. stop before fetching if "".
+//stop during fetch if invalid name
+//dont create new button if name already exists.
 
 //merge searchBtnHandler() with getCityNameLatLon()
 
