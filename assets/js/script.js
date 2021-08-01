@@ -36,18 +36,12 @@ var searchBtnHandler = function(event){
     cityName = inputBoxEl.value.trim();
 
     getCityNameLatLon(cityName);
+    inputBoxEl.value = "";
 
     //check if value is empty, or if name was already inputed, or if city name is non-existent
     // if(checkCity(cityName)){
     //     return;
     // };
-    
-    // //get the value of the input box. Then create a button on the same column as the search box for getting that info back
-    // createCityButton(cityName);
-    // //also create a box on the right where the info will be appended
-    // displayBoxInfo(cityName);
-    // //and a bottom section: 5-day forecast
-    // displayForecast(cityName);
     
     //store city in localStorage
     //storeCity(cityName);
@@ -63,13 +57,12 @@ var getCityNameLatLon = function(city) {
         .then(function(response) {
             if(response.ok){
                 response.json().then(function(data) {//string api becomes object 
-                    
                     cityName = data.name;
                     var lat = data.coord.lat;
                     var lon = data.coord.lon;
 
                     getCityAdvancedInfo(lat, lon);
-                    });
+                });
             }
             //if request was not successful means city was not found
             else{
@@ -99,13 +92,12 @@ var getCityAdvancedInfo = function(lat, lon){
                     // Can we call another function by passing data? -YES
                     // Call the function to display info with this data from now!
                     
-
-                    // console.log(data);
-                    // console.log(cityName);
-                    // var newDate = new Date(1627923600*1000);
-                    // console.log(newDate);
-                    
-
+                    // //get the value of the input box. Then create a button on the same column as the search box for getting that info back
+                    createCityButton(cityName);
+                    //also create a box on the right where the info will be appended
+                    displayBoxInfo(data.current);
+                    //and a bottom section: 5-day forecast
+                    displayForecast(data.daily);
                 });
             }
                 
@@ -154,27 +146,27 @@ var createCityButton = function(city){
     leftSectionEl.appendChild(newCity);
 }
 
-var displayBoxInfo = function (city){
+var displayBoxInfo = function (current){
     //give the div its border class and Populate the info into its tags.
     infoBoxEl.className = "info-box-border";
 
-    var cityName = document.querySelector("#box-city-name");
-    cityName.textContent = city;
+    var name = document.querySelector("#box-city-name");
+    name.textContent = cityName;
 
     var temp = document.querySelector("#box-temp");
-    temp.textContent = "Temp: " + "get from fetching info";
+    temp.textContent = "Temp: " + current.temp + "K";
 
     var wind = document.querySelector("#box-wind");
-    wind.textContent = "Wind: " + "get from fetching info";
+    wind.textContent = "Wind: " + current.wind_speed + "MPH";
 
     var humidity = document.querySelector("#box-humidity");
-    humidity.textContent = "Humidity: " + "get from fetching info";
+    humidity.textContent = "Humidity: " + current.humidity + "%";
 
     var uv = document.querySelector("#box-uv");
-    uv.textContent = "UV Index: " + "get from fetching info";
+    uv.textContent = "UV Index: " + current.uvi;
 }
 
-var displayForecast = function(city){
+var displayForecast = function(day){
 
     var sectionTitle = document.querySelector("#five-day-forecast");
     sectionTitle.textContent = "5-Day Forecast:";
@@ -182,28 +174,28 @@ var displayForecast = function(city){
     var dayCards = document.querySelector(".forecast-cards");
     dayCards.textContent = "";
 
-    for(var i=0; i<5; i++){
+    for(var i=1; i<=5; i++){
 
         var dayForecastCard = document.createElement("div");
         dayForecastCard.className = "forecast-single-card";
     
-        var day = document.createElement("h5");
-        day.className = "left";
-        day.textContent = "Day " + (i+1);
+        var cardy = document.createElement("h5");
+        cardy.className = "left";
+        cardy.textContent = "Day " + (i+1);
     
         var temp = document.createElement("h6");
         temp.className = "left";
-        temp.textContent = "Temp:" + "use moment and fetch";
+        temp.textContent = "Temp:" + day[i].temp.day + "K";
     
         var wind = document.createElement("h6");
         wind.className = "left";
-        wind.textContent = "Wind:" + "use moment and fetch";
+        wind.textContent = "Wind:" + day[i].wind_speed + "MPH";
     
         var humidity = document.createElement("h6");
         humidity.className = "left";
-        humidity.textContent = "Humidity:" + "use moment and fetch";
+        humidity.textContent = "Humidity:" + day[i].humidity + "%";
     
-        dayForecastCard.appendChild(day);
+        dayForecastCard.appendChild(cardy);
         dayForecastCard.appendChild(temp);
         dayForecastCard.appendChild(wind);
         dayForecastCard.appendChild(humidity);
@@ -241,7 +233,6 @@ searchFormEl.addEventListener("submit", searchBtnHandler);
 //displayed info-box and forecast need to be provided from the API
 
 //style hover effects in the buttons
-//clear input box after a search
 
 //still need to fetch info from api to be displayed
 //But what if a city is clicked? -- Then call the other two functions again passing its own textContent as parameter
