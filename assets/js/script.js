@@ -48,7 +48,7 @@ var searchBtnHandler = function(event){
     displayBoxInfo(cityName);
     //and a bottom section: 5-day forecast
     displayForecast(cityName);
-
+    
     //store city in localStorage
     storeCity(cityName);
 }
@@ -58,11 +58,13 @@ var checkCity = function(cityName){
     if(cityName == ""){//add || cityName already exists in localStorage
         return true;
     }
-    
+
     //if there are cities in the citiesArr already, see if new city is already there
     else if(citiesArr){
         for(var i=0; i<citiesArr.length; i++){
             if(cityName == citiesArr[i]){
+                displayBoxInfo(cityName);
+                displayForecast(cityName);
                 return true;
             }
         }
@@ -178,6 +180,11 @@ searchFormEl.addEventListener("submit", searchBtnHandler);
 
 
 //add drag-and-drop properties to make cities dropable to remove zone
+
+//displayed info-box and forecast need to be provided from the API
+
+//style hover effects in the buttons
+//clear input box after a search
 
 //still need to fetch info from api to be displayed
 //But what if a city is clicked? -- Then call the other two functions again passing its own textContent as parameter
