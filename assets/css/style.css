@@ -18,6 +18,7 @@ header{
     background: darkblue;
     color: white;
     margin-bottom: 25px;
+    padding: 5px 0 0 0;
 }
 
 .center{
@@ -124,6 +125,31 @@ header{
     margin: 10px 0 15px 0px;
 }
 
+.background {
+    padding: 6px 6px;
+    border-radius: 15px;
+}
+
+.green{
+    background-color: green;
+    color: white;
+}
+
+.yellow{
+    background-color: yellow;
+    color: black;
+}
+
+.orange{
+    background-color: orange;
+    color: black
+}
+
+.red{
+    background-color: red;
+    color: white;
+}
+
 #forecast {
     margin: 10px 0 0 0;
 }
@@ -141,6 +167,7 @@ header{
     width: 19%;
     color: white;
     padding: 10px 10px 5px 12px;
+    border-radius: 10px;
 }
 
 /* footer {

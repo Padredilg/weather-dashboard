@@ -158,7 +158,23 @@ var displayBoxInfo = function (current){
     humidity.textContent = "Humidity: " + current.humidity + "%";
 
     var uv = document.querySelector("#box-uv");
-    uv.textContent = "UV Index: " + current.uvi;
+    var uvColor = getUVColor(current.uvi);
+    uv.innerHTML = "UV Index: <span class='background " + uvColor + "'>" + current.uvi + "</span>";
+}
+
+var getUVColor = function(uv){
+    if(uv < 3){
+        return "green";
+    }
+    else if(uv < 6){
+        return "yellow"
+    }
+    else if(uv < 9){
+        return "orange"
+    }
+    else{
+        return "red"
+    }
 }
 
 var displayForecast = function(day){
@@ -236,15 +252,6 @@ loadCities();
 searchFormEl.addEventListener("submit", searchBtnHandler);
 clearSearchEl.addEventListener("click", clearHistory);
 
-
-//UV Index Color
-
 //style hover effects in the buttons
 
-//card colors
-
 //Update Read Me
-
-//clear search-history button
-
-//add drag-and-drop properties to make cities dropable to remove zone
